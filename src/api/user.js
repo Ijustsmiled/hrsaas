@@ -1,24 +1,19 @@
 import request from '@/utils/request'
 
-export function login(data) {
+// 登录请求接口封装
+export const login = data => {
   return request({
-    url: '/vue-admin-template/user/login',
-    method: 'post',
+    // 因为所有的接口都要跨域 表示所有的接口要带 /api
+    url: '/sys/login',
+    method: 'POST',
     data
   })
 }
 
 export function getInfo(token) {
-  return request({
-    url: '/vue-admin-template/user/info',
-    method: 'get',
-    params: { token }
-  })
+
 }
 
 export function logout() {
-  return request({
-    url: '/vue-admin-template/user/logout',
-    method: 'post'
-  })
+
 }

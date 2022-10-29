@@ -10,8 +10,20 @@ export const login = data => {
   })
 }
 
-export function getInfo(token) {
+// 获取用户基本资料
+export const getUserInfo = () => {
+  return request({
+    url: '/sys/profile',
+    method: 'POST'
+  })
+}
 
+// 获取用户详情信息
+export const getUserDetailById = id => {
+  return request({
+    url: `/sys/user/${id}`,
+    method: 'GET'
+  })
 }
 
 export function logout() {

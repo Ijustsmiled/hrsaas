@@ -115,3 +115,23 @@ export function param2Obj(url) {
   })
   return obj
 }
+
+// 封装将列表型的数据转化成树形数据的方法
+// 注意：调用递归，一定条件不能一样，否则就会死循环
+// 遍历树形 有一个重点 要先找一个头
+export const tranListToTreeData = (list, rootValue) => {
+  const arr = []
+  list.forEach(item => {
+    if (item.pid === rootValue) {
+      // 找到之后 就要去找 item 下是否有子节点
+      const children = tranListToTreeData(list, item.id)
+      // 如果长度大于零，就说明有子节点
+      if (children.length) {
+        item.children = children
+      }
+      // 将数据加入到数组当中
+      arr.push(item)
+    }
+  })
+  return arr
+}

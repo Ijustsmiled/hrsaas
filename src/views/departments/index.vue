@@ -84,12 +84,12 @@ export default {
     },
     // 编辑数据
     editDepts(node) {
-      // 显示弹出层
-      this.showDialog = true
-      this.node = node
       // 父组件调用子组件的方法
       // 直接调用子组件中的方法 传入一个id
       this.$refs.addDept.getDepartDetail(node.id)
+      // 显示弹出层
+      this.showDialog = true
+      this.node = node
     }
   }
 }

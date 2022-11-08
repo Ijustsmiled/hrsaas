@@ -15,8 +15,18 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // 权限管理
 
+// 引入全局组件注册
+import components from './components'
+
 // 自定义指令
 import * as directives from '@/directives'
+
+import * as filters from '@/filters' // 引入工具类
+// 注册全局的过滤器
+Object.keys(filters).forEach(key => {
+  // 注册过滤器
+  Vue.filter(key, filters[key])
+})
 
 Object.keys(directives).forEach(key => {
   // 注册自定义指令
@@ -35,6 +45,8 @@ Object.keys(directives).forEach(key => {
 Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
+
+Vue.use(components)
 
 Vue.config.productionTip = false
 

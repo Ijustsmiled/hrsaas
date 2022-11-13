@@ -1,5 +1,6 @@
 import { getToken, setToken, removeToken, setTimeStamp } from '@/utils/auth'
 import { login, getUserInfo, getUserDetailById } from '@/api/user'
+import { resetRouter } from '@/router'
 
 // 状态
 // 初始化的时候，从缓存中读取状态，并赋值到初始化状态上
@@ -66,6 +67,13 @@ const actions = {
     context.commit('removeToken')
     // 删除用户信息
     context.commit('removeUserInfo')
+    // 重置路由
+    resetRouter()
+    // 清空permission模块下的state数据
+    // 需要子模块调用子模块中的方法
+    // 第一种方法：取消namespace
+    // 第二种方法：将commit第三个参数设置成 {root: ture} 就表示当前的context不是子模块而是父模块
+    context.commit('permission/setRoutes', [], { root: true })
   }
 }
 

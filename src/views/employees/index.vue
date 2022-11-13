@@ -10,7 +10,7 @@
         <template v-slot:after>
           <el-button size="small" type="warning" @click="$router.push('/import?type=user')">excel导入</el-button>
           <el-button size="small" type="danger" @click="exportData">excel导出</el-button>
-          <el-button size="small" type="primary" @click="showDialog = true">新增员工</el-button>
+          <el-button size="small" type="primary" :disabled="!checkPermission('add-employee')" @click="showDialog = true">新增员工</el-button>
         </template>
       </page-tools>
       <!-- 放置表格和分页 -->
@@ -44,7 +44,7 @@
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
-              <el-button type="text" size="small">角色</el-button>
+              <el-button type="text" size="small" @click="editRole(row.id)">角色</el-button>
               <el-button type="text" size="small" @click="deleteEmployee(row.id)">删除</el-button>
             </template>
           </el-table-column>
@@ -61,24 +61,32 @@
         </el-row>
       </el-card>
     </div>
+    <!-- 添加员工组件 -->
     <add-employee-vue :show-dialog.sync="showDialog" />
+    <!-- 图片二维码弹出 -->
     <el-dialog title="二维码" :visible.sync="showCodeDialog">
       <el-row type="flex" justify="center">
         <canvas ref="myCanvas" />
       </el-row>
     </el-dialog>
+    <!-- 分配角色组件 -->
+    <assign-role-vue ref="assginRloe" :show-role-dialog.sync="showRoleDialog" :user-id="userId" />
   </div>
 </template>
 
 <script>
 import { getEmployeeList, delEmployee } from '@/api/employees'
 import EmployeeEnum from '@/api/constant/employees'
-import addEmployeeVue from './components/add-employee.vue'
 import { formatDate } from '@/filters'
+
+import addEmployeeVue from './components/add-employee.vue'
+import assignRoleVue from './components/assign-role.vue'
+
 import QrCode from 'qrcode'
 export default {
   components: {
-    addEmployeeVue
+    addEmployeeVue,
+    assignRoleVue
   },
   data() {
     return {
@@ -92,9 +100,12 @@ export default {
       },
       // 承接数据
       list: [],
+      userId: null,
       showDialog: false,
       // 控制二维码的显示
-      showCodeDialog: false
+      showCodeDialog: false,
+      // 控制分配角色组件显示
+      showRoleDialog: false
     }
   },
   created() {
@@ -196,6 +207,13 @@ export default {
       } else {
         this.$message.warning('该用户还未上传头像')
       }
+    },
+    async editRole(id) {
+      this.userId = id
+      // 因为props传值是异步的，所以使用父组件调用子组件方法
+      await this.$refs.assginRloe.getUserDetailById(id)
+      // 显示分配角色组件
+      this.showRoleDialog = true
     }
   }
 }

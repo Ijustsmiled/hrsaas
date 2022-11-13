@@ -5,7 +5,7 @@ import Layout from '@/layout'
 // 每个子模块，其实都是外层layout，组件位于layout的二级路由
 export default {
   path: '/setting',
-  // name: 'setting',
+  name: 'settings',
   component: Layout,
   // 配置二级路由
   children: [{

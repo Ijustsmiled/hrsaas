@@ -85,3 +85,12 @@ export const updateJob = (data) => {
     data
   })
 }
+
+// 给员工分配角色
+export const assignRoles = data => {
+  return request({
+    method: 'PUT',
+    url: '/sys/user/assignRoles',
+    data
+  })
+}

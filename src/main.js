@@ -46,6 +46,10 @@ Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
 
+// 引入混入组件
+import checkPermission from '@/mixin/checkPermission'
+Vue.mixin(checkPermission)
+
 Vue.use(components)
 
 Vue.config.productionTip = false

@@ -52,3 +52,12 @@ export const addRole = data => {
     data
   })
 }
+
+// 给角色分配权限
+export const assignPerm = data => {
+  return request({
+    method: 'PUT',
+    url: '/sys/role/assignPrem',
+    data
+  })
+}

@@ -26,9 +26,18 @@ router.beforeEach(async(to, from, next) => {
       // 通过判断是否有用户id，验证是否具有用户资料
       if (!store.getters.userId) {
         // await 是使程序变成同步运行，必须先获取资料之后才可以跳转
-        await store.dispatch('user/getUserInfo')
+        const { roles: { menus }} = await store.dispatch('user/getUserInfo')
+        // 筛选用户可用路由
+        const routes = await store.dispatch('permission/filterRoutes', menus)
+        // 添加动态路由到路由表
+        router.addRoutes([...routes, { path: '*', redirect: '/404', hidden: true }])
+        // 添加完动态路由之后
+        // 相当于跳到对应的地址  相当于多做一次跳转
+        // 进门了，但是进门之后我要去的地方的路还没有铺好，直接走，掉坑里，多做一次跳转，再从门外往里进一次，跳转之前 把路铺好，再次进来的时候，路就铺好了
+        next(to.path)
+      } else {
+        next()
       }
-      next()
     }
   } else {
     // 判断没有token下访问的是否在白名单之内

@@ -1,22 +1,50 @@
-// 社保的路由规则
 
 import Layout from '@/layout'
 
-// 每个子模块，其实都是外层layout，组件位于layout的二级路由
 export default {
-  path: '/social',
-  name: 'social_securitys',
+  path: '/social_securitys',
   component: Layout,
-  // 配置二级路由
-  children: [{
-    // 默认路由
-    path: '',
-    component: () => import('@/views/social'),
-    // 路由元信息
-    meta: {
-      // 左侧导航把mate中的title为显示菜单名称
-      title: '社保',
-      icon: 'table'
+  name: 'social_securitys',
+  children: [
+    {
+      path: '',
+      component: () => import('@/views/social'),
+      name: 'social_securitys',
+      meta: {
+        title: '社保',
+        icon: 'table'
+
+      }
+    },
+    // 报表
+    {
+      path: 'detail/:id',
+      hidden: true,
+      component: () => import('@/views/social/detail'),
+      name: 'socialDetail',
+      meta: {
+        title: '社保'
+      }
+    },
+    // 历史归档
+    {
+      path: 'historicalArchiving',
+      hidden: true,
+      component: () => import('@/views/social/historical'),
+      name: 'socialHistorical',
+      meta: {
+        title: '历史归档'
+      }
+    },
+    // 月报表
+    {
+      path: 'monthStatement',
+      component: () => import('@/views/social/month'),
+      name: 'socialMonthStatement',
+      hidden: true,
+      meta: {
+        title: '当月报表'
+      }
     }
-  }]
+  ]
 }

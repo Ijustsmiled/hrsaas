@@ -12,6 +12,7 @@ export default {
     // 默认路由
     path: '',
     component: () => import('@/views/employees'),
+    name: 'employees',
     // 路由元信息
     meta: {
       // 左侧导航把mate中的title为显示菜单名称
